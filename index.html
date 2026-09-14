@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAOS — Pantalones</title>
+<link rel="icon" type="image/png" href="./brand/kaos-monogram.png">
+<style>
+  :root { --ink:#111210; --bone:#f2f1ec; --acid:#d8ff35; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; flex-direction:column;
+         background:var(--ink); color:var(--bone);
+         font-family:"Helvetica Neue", Arial, sans-serif; }
+
+  header { display:flex; align-items:center; justify-content:space-between;
+           gap:16px; padding:18px clamp(18px,4vw,60px);
+           border-bottom:1px solid #ffffff24; }
+  header img { width:78px; height:42px; object-fit:contain; filter:invert(1); }
+  header span { padding:5px 9px; border-radius:999px; background:var(--acid);
+                color:var(--ink); font-size:10px; font-weight:900; letter-spacing:.12em; }
+
+  main { flex:1; display:grid; align-content:center; gap:34px;
+         padding:clamp(50px,9vw,110px) clamp(18px,4vw,60px); }
+  .kicker { margin:0; color:var(--acid); font-size:12px; font-weight:900; letter-spacing:.18em; }
+  h1 { margin:0; font-family:Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+       font-size:clamp(3.4rem,11vw,9rem); font-weight:400; line-height:.82; letter-spacing:-.03em; }
+  h1 em { color:transparent; -webkit-text-stroke:1.6px var(--acid); font-style:normal; }
+  .lead { max-width:480px; margin:0; color:#ffffffad;
+          font-size:clamp(16px,1.6vw,20px); line-height:1.55; }
+
+  .links { display:flex; flex-wrap:wrap; gap:14px; margin-top:6px; }
+  .links a { display:inline-flex; align-items:center; gap:9px;
+             padding:15px 24px; border:1px solid var(--bone);
+             color:var(--bone); font-size:15px; font-weight:800;
+             text-decoration:none; transition:background .16s, color .16s; }
+  .links a:hover { background:var(--bone); color:var(--ink); }
+  .links a.primary { border-color:var(--acid); background:var(--acid); color:var(--ink); }
+  .links a.primary:hover { background:#c9f01c; border-color:#c9f01c; }
+  .links svg { width:16px; height:16px; }
+
+  footer { padding:22px clamp(18px,4vw,60px); border-top:1px solid #ffffff24;
+           color:#ffffff70; font-size:13px; }
+
+  @media (max-width:680px) {
+    .links { flex-direction:column; align-items:stretch; }
+    .links a { justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="./brand/kaos-logo.png" alt="KAOS">
+  <span>PANTALONES</span>
+</header>
+
+<main>
+  <p class="kicker">TEHUACÁN, PUEBLA</p>
+  <h1>TODO EL KAOS.<br><em>BIEN PUESTO.</em></h1>
+  <p class="lead">
+    Pantalones de corte amplio, chinos y mezclilla. Menudeo y mayoreo
+    desde seis piezas.
+  </p>
+  <div class="links">
+    <a class="primary" href="https://kaos-pantalones.teccapitalweb.chatgpt.site">
+      Ver la tienda
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+    </a>
+    <a href="#" id="panel-link">
+      Panel de administración
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+    </a>
+  </div>
+</main>
+
+<footer>KAOS · Pantalones de autor</footer>
+
+<script>
+  // Apunta al panel publicado en el mismo usuario de GitHub Pages.
+  // Si el repo del panel se llama distinto, cambia "kaos-admin" por su nombre.
+  document.getElementById('panel-link').href =
+    location.origin + '/kaos-admin/';
+</script>
+
+</body>
+</html>
