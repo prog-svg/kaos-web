@@ -1,51 +1,81 @@
 # kaos-web
 
-Sitio público de KAOS Pantalones, publicado con GitHub Pages.
+Tienda de KAOS Pantalones. Catálogo con carrito; los pedidos salen por WhatsApp.
+Publicada con GitHub Pages, sin servidor ni base de datos.
 
-## Por qué daba 404
+## Lo único que tienes que editar: `productos.js`
 
-El repositorio no tenía ningún `index.html`. Todo lo que había era un `README.md`
-y un `.gitignore`, y encima quedaron dentro de una subcarpeta (`kaos-web/kaos-web-main/`)
-porque al subir se arrastró la carpeta completa en vez de su contenido.
+Ahí está todo: el número de WhatsApp, el mínimo de piezas para mayoreo, y los
+siete productos con sus precios. No hace falta tocar `index.html` para nada.
 
-El workflow anterior además intentaba `npm install && npm run build` dentro de esa
-subcarpeta, donde no existe ningún `package.json`, y luego publicaba `dist/`, que
-nunca se generaba. Resultado: GitHub Pages publicaba un paquete vacío y la URL
-respondía 404.
+### 1. Tu número de WhatsApp
 
-## Cómo subirlo bien
+```js
+const WHATSAPP = "522381234567";   // <-- cámbialo
+```
 
-Los archivos van en la **raíz** del repositorio. Debe quedar así:
+Código de país + número, sin espacios, guiones ni el signo `+`.
+México es `52`.
+
+### 2. Precios
+
+Cada producto tiene dos:
+
+```js
+precio: 499,          // por pieza, venta al público
+precioMayoreo: 349,   // por pieza, al llegar al mínimo
+```
+
+El mínimo se define una sola vez arriba:
+
+```js
+const MIN_MAYOREO = 6;
+```
+
+El carrito cambia solo de un precio al otro cuando el total de piezas llega al
+mínimo. El cliente puede combinar modelos distintos: lo que cuenta es la suma.
+
+### 3. Ocultar un producto sin borrarlo
+
+```js
+activo: false,
+```
+
+## Cómo subir cambios
+
+```powershell
+cd $HOME\Documents\kaos-web
+git add -A
+git commit -m "Actualiza catalogo"
+git push
+```
+
+En un minuto está publicado.
+
+## Agregar un producto nuevo
+
+1. Guarda la foto en `products/` (vertical, proporción 3:4, máx 900px de ancho).
+2. Copia un bloque de `productos.js`, pégalo y cambia sus datos.
+3. El `id` debe ser único y sin espacios ni acentos.
+
+## Estructura
 
 ```
 kaos-web/
-├── .github/workflows/deploy.yml
-├── brand/
-│   ├── kaos-logo.png
-│   └── kaos-monogram.png
+├── .github/workflows/deploy.yml   publicación automática
 ├── .nojekyll
-├── index.html          ← este archivo es el que evita el 404
-└── README.md
+├── index.html                     la tienda (diseño y carrito)
+├── productos.js                   catálogo y WhatsApp  ← lo que editas
+├── brand/                         logo y monograma
+└── products/                      fotos de producto
 ```
 
-Y **no** así:
+## Qué hace y qué no
 
-```
-kaos-web/
-└── kaos-web-main/      ← esta carpeta de más es el problema
-    └── index.html
-```
+Hace: catálogo, filtro por categoría, carrito, precio de mayoreo automático,
+y un mensaje de WhatsApp con el pedido armado.
 
-Luego, en GitHub: **Settings → Pages → Source → GitHub Actions**.
-
-## Si más adelante el sitio necesita compilarse
-
-El workflow publica la raíz tal cual, sin compilar. Si cambias a un proyecto con
-build (Vite, Astro, etc.), abre `.github/workflows/deploy.yml`, descomenta el bloque
-`Setup Node / Install / Build` y cambia `path: .` por `path: ./dist`.
-
-## Sobre `.nojekyll`
-
-GitHub Pages pasa los sitios por Jekyll, que ignora las carpetas y archivos que
-empiezan con guion bajo. El archivo vacío `.nojekyll` apaga ese comportamiento.
-No lo borres.
+No hace: cobrar en línea, guardar los pedidos, ni llevar inventario. El pedido
+llega a tu WhatsApp y de ahí lo tomas tú. Si más adelante quieres que los pedidos
+se guarden solos y se administren desde un panel, eso pide una base de datos
+(Firebase) — el diseño de esta tienda se puede conservar tal cual.

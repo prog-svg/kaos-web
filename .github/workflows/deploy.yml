@@ -1,5 +1,12 @@
 name: Deploy to GitHub Pages
 
+# Este workflow publica el contenido de la RAÍZ del repo tal cual,
+# sin compilar nada. Sirve para un sitio de HTML/CSS/JS.
+#
+# Si más adelante el sitio necesita compilarse (Vite, Astro, etc.),
+# descomenta el bloque "Setup Node / Install / Build" de abajo y
+# cambia `path: .` por `path: ./dist`.
+
 on:
   push:
     branches: ["main"]
@@ -21,13 +28,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # --- Descomenta solo si el sitio tiene package.json y necesita build ---
+      # - name: Setup Node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+      #
+      # - name: Install dependencies
+      #   run: npm install
+      #
+      # - name: Build
+      #   run: npm run build
+      # ----------------------------------------------------------------------
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .          # <-- cámbialo a ./dist si activas el build
 
   deploy:
     needs: build

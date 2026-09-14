@@ -4,73 +4,434 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KAOS — Pantalones</title>
+<meta name="description" content="Pantalones de corte amplio, chinos y mezclilla. Menudeo y mayoreo desde seis piezas. Tehuacán, Puebla.">
 <link rel="icon" type="image/png" href="./brand/kaos-monogram.png">
 <style>
-  :root { --ink:#111210; --bone:#f2f1ec; --acid:#d8ff35; }
+  :root { --ink:#111210; --bone:#f2f1ec; --acid:#d8ff35; --gris:#6c6b64; --linea:#11121020; }
   * { box-sizing:border-box; }
-  body { margin:0; min-height:100vh; display:flex; flex-direction:column;
-         background:var(--ink); color:var(--bone);
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bone); color:var(--ink);
          font-family:"Helvetica Neue", Arial, sans-serif; }
+  img { max-width:100%; display:block; }
+  button { font:inherit; cursor:pointer; }
 
-  header { display:flex; align-items:center; justify-content:space-between;
-           gap:16px; padding:18px clamp(18px,4vw,60px);
-           border-bottom:1px solid #ffffff24; }
-  header img { width:78px; height:42px; object-fit:contain; filter:invert(1); }
-  header span { padding:5px 9px; border-radius:999px; background:var(--acid);
-                color:var(--ink); font-size:10px; font-weight:900; letter-spacing:.12em; }
+  /* ---------- Encabezado ---------- */
+  header { position:sticky; top:0; z-index:40; display:flex; align-items:center;
+           justify-content:space-between; gap:16px; min-height:70px;
+           padding:10px clamp(16px,4vw,60px); border-bottom:1px solid var(--ink);
+           background:#f2f1ecef; backdrop-filter:blur(16px); }
+  .marca { display:flex; align-items:center; gap:11px; }
+  .marca img { width:76px; height:40px; object-fit:contain; mix-blend-mode:multiply; }
+  .marca span { padding:5px 8px; border-radius:999px; background:var(--ink); color:#fff;
+                font-size:10px; font-weight:900; letter-spacing:.12em; }
+  .btn-carrito { position:relative; display:flex; align-items:center; gap:8px;
+                 padding:11px 17px; border:1px solid var(--ink); background:none;
+                 font-size:14px; font-weight:800; }
+  .btn-carrito:hover { background:var(--ink); color:#fff; }
+  .btn-carrito svg { width:17px; height:17px; }
+  .cuenta { display:grid; place-items:center; min-width:21px; height:21px; padding:0 6px;
+            border-radius:999px; background:var(--acid); color:var(--ink);
+            font-size:11px; font-weight:900; }
+  .btn-carrito:hover .cuenta { background:var(--acid); color:var(--ink); }
 
-  main { flex:1; display:grid; align-content:center; gap:34px;
-         padding:clamp(50px,9vw,110px) clamp(18px,4vw,60px); }
-  .kicker { margin:0; color:var(--acid); font-size:12px; font-weight:900; letter-spacing:.18em; }
-  h1 { margin:0; font-family:Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-       font-size:clamp(3.4rem,11vw,9rem); font-weight:400; line-height:.82; letter-spacing:-.03em; }
-  h1 em { color:transparent; -webkit-text-stroke:1.6px var(--acid); font-style:normal; }
-  .lead { max-width:480px; margin:0; color:#ffffffad;
-          font-size:clamp(16px,1.6vw,20px); line-height:1.55; }
+  /* ---------- Portada ---------- */
+  .portada { display:grid; grid-template-columns:1.4fr .6fr; align-items:end; gap:50px;
+             padding:clamp(50px,7vw,96px) clamp(16px,4vw,60px) 52px;
+             border-bottom:1px solid var(--ink); background:var(--ink); color:#fff; }
+  .lugar { margin:0; color:var(--acid); font-size:12px; font-weight:900; letter-spacing:.18em; }
+  .portada h1 { margin:22px 0 0; font-family:Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+                font-size:clamp(3.2rem,7.5vw,8.4rem); font-weight:400; line-height:.82; letter-spacing:-.03em; }
+  .portada h1 em { color:transparent; -webkit-text-stroke:1.6px var(--acid); font-style:normal; }
+  .portada p { max-width:430px; margin:0; color:#ffffffad;
+               font-size:clamp(16px,1.5vw,20px); line-height:1.55; }
 
-  .links { display:flex; flex-wrap:wrap; gap:14px; margin-top:6px; }
-  .links a { display:inline-flex; align-items:center; gap:9px;
-             padding:15px 24px; border:1px solid var(--bone);
-             color:var(--bone); font-size:15px; font-weight:800;
-             text-decoration:none; transition:background .16s, color .16s; }
-  .links a:hover { background:var(--bone); color:var(--ink); }
-  .links a.primary { border-color:var(--acid); background:var(--acid); color:var(--ink); }
-  .links a.primary:hover { background:#c9f01c; border-color:#c9f01c; }
-  .links svg { width:16px; height:16px; }
+  /* ---------- Aviso de mayoreo ---------- */
+  .aviso { display:flex; align-items:center; justify-content:center; gap:10px;
+           padding:15px 18px; border-bottom:1px solid var(--ink); background:var(--acid);
+           font-size:14px; font-weight:800; text-align:center; }
+  .aviso svg { width:17px; height:17px; flex-shrink:0; }
 
-  footer { padding:22px clamp(18px,4vw,60px); border-top:1px solid #ffffff24;
-           color:#ffffff70; font-size:13px; }
+  /* ---------- Filtros ---------- */
+  .filtros { display:flex; flex-wrap:wrap; gap:9px;
+             padding:clamp(28px,4vw,44px) clamp(16px,4vw,60px) 22px; }
+  .filtros button { padding:10px 20px; border:1px solid var(--ink); background:none;
+                    font-size:14px; font-weight:800; }
+  .filtros button[aria-pressed="true"] { background:var(--ink); color:#fff; }
 
+  /* ---------- Catálogo ---------- */
+  .catalogo { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+              gap:1px; margin:0 clamp(16px,4vw,60px) clamp(50px,7vw,90px);
+              border:1px solid var(--ink); background:var(--ink); }
+  .tarjeta { display:flex; flex-direction:column; background:var(--bone); }
+  .tarjeta figure { position:relative; margin:0; aspect-ratio:3/4; overflow:hidden; background:#e6e5df; }
+  .tarjeta figure img { width:100%; height:100%; object-fit:cover;
+                        transition:transform .5s cubic-bezier(.2,.7,.3,1); }
+  .tarjeta:hover figure img { transform:scale(1.045); }
+  .etiqueta-cat { position:absolute; top:11px; left:11px; padding:5px 10px;
+                  background:var(--bone); font-size:10px; font-weight:900; letter-spacing:.1em; }
+  .tarjeta .cuerpo { display:flex; flex-direction:column; flex:1; gap:7px; padding:17px; }
+  .tarjeta h3 { margin:0; font-size:19px; }
+  .tarjeta .sub { margin:0; color:var(--gris); font-size:13px; }
+  .tarjeta .desc { margin:0; color:var(--gris); font-size:13px; line-height:1.5; }
+  .precios { display:flex; align-items:baseline; gap:9px; margin-top:auto; padding-top:13px; }
+  .precios strong { font-size:23px; }
+  .precios span { color:var(--gris); font-size:12px; }
+  .agregar { margin-top:12px; padding:13px; border:none; background:var(--ink); color:#fff;
+             font-size:14px; font-weight:800; }
+  .agregar:hover { background:var(--acid); color:var(--ink); }
+  .agregar.puesto { background:var(--acid); color:var(--ink); }
+
+  /* ---------- Carrito ---------- */
+  .fondo { position:fixed; inset:0; z-index:50; background:#111210b3;
+           opacity:0; pointer-events:none; transition:opacity .22s; }
+  .fondo.abierto { opacity:1; pointer-events:auto; }
+  .carrito { position:fixed; top:0; right:0; bottom:0; z-index:60;
+             display:flex; flex-direction:column; width:min(420px,100%);
+             border-left:1px solid var(--ink); background:var(--bone);
+             transform:translateX(100%); transition:transform .28s cubic-bezier(.3,.8,.3,1); }
+  .carrito.abierto { transform:none; }
+  .carrito-top { display:flex; align-items:center; justify-content:space-between;
+                 padding:18px 20px; border-bottom:1px solid var(--ink); }
+  .carrito-top h2 { margin:0; font-family:Impact, sans-serif; font-size:27px; font-weight:400; }
+  .cerrar { padding:7px; border:none; background:none; line-height:0; }
+  .cerrar svg { width:22px; height:22px; }
+  .lineas { flex:1; overflow-y:auto; padding:6px 20px; }
+  .linea { display:grid; grid-template-columns:62px 1fr auto; gap:13px;
+           padding:16px 0; border-bottom:1px solid var(--linea); }
+  .linea img { width:62px; height:78px; object-fit:cover; }
+  .linea h4 { margin:0 0 3px; font-size:15px; }
+  .linea small { color:var(--gris); font-size:12px; }
+  .cantidad { display:flex; align-items:center; gap:9px; margin-top:9px; }
+  .cantidad button { display:grid; place-items:center; width:27px; height:27px;
+                     border:1px solid var(--ink); background:none; font-size:15px; font-weight:800; }
+  .cantidad button:hover { background:var(--ink); color:#fff; }
+  .cantidad b { min-width:19px; text-align:center; font-size:14px; }
+  .linea .monto { font-size:15px; font-weight:800; text-align:right; white-space:nowrap; }
+  .quitar { margin-top:7px; border:none; background:none; padding:0;
+            color:var(--gris); font-size:12px; text-decoration:underline; }
+  .vacio { display:grid; justify-items:center; gap:7px; padding:70px 20px; text-align:center; }
+  .vacio svg { width:42px; height:42px; stroke-width:1.2; color:var(--gris); }
+  .vacio p { margin:0; color:var(--gris); font-size:14px; }
+  .carrito-pie { padding:19px 20px; border-top:1px solid var(--ink); background:#fff; }
+  .renglon { display:flex; justify-content:space-between; margin-bottom:9px; font-size:14px; }
+  .renglon.total { margin-bottom:17px; font-size:19px; font-weight:900; }
+  .ahorro { display:flex; align-items:center; gap:7px; margin-bottom:13px; padding:11px;
+            background:var(--acid); font-size:13px; font-weight:800; }
+  .ahorro svg { width:15px; flex-shrink:0; }
+  .falta { margin:0 0 13px; color:var(--gris); font-size:12.5px; line-height:1.5; }
+  .pedir { display:flex; align-items:center; justify-content:center; gap:10px;
+           width:100%; padding:16px; border:none; background:#111210; color:#fff;
+           font-size:15px; font-weight:800; text-decoration:none; }
+  .pedir:hover { background:var(--acid); color:var(--ink); }
+  .pedir svg { width:19px; height:19px; }
+  .pedir[aria-disabled="true"] { opacity:.4; pointer-events:none; }
+
+  footer { padding:34px clamp(16px,4vw,60px); border-top:1px solid var(--ink);
+           background:var(--ink); color:#ffffff85; font-size:13px; line-height:1.7; }
+  footer b { display:block; color:#fff; font-size:15px; }
+
+  @media (max-width:900px) {
+    .portada { grid-template-columns:1fr; gap:24px; }
+  }
   @media (max-width:680px) {
-    .links { flex-direction:column; align-items:stretch; }
-    .links a { justify-content:center; }
+    header { min-height:62px; }
+    .marca img { width:62px; }
+    .btn-carrito span.txt { display:none; }
+    .portada { padding:44px 16px 38px; }
+    .catalogo { grid-template-columns:repeat(2,1fr); }
+    .tarjeta .cuerpo { padding:12px; }
+    .tarjeta h3 { font-size:16px; }
+    .tarjeta .desc { display:none; }
+    .precios strong { font-size:19px; }
+  }
+  @media (max-width:420px) {
+    .catalogo { grid-template-columns:1fr; }
+    .tarjeta .desc { display:block; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <img src="./brand/kaos-logo.png" alt="KAOS">
-  <span>PANTALONES</span>
+  <div class="marca">
+    <img src="./brand/kaos-logo.png" alt="KAOS">
+    <span>PANTALONES</span>
+  </div>
+  <button class="btn-carrito" id="abrir-carrito">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/>
+    </svg>
+    <span class="txt">Carrito</span>
+    <span class="cuenta" id="cuenta">0</span>
+  </button>
 </header>
 
-<main>
-  <p class="kicker">TEHUACÁN, PUEBLA</p>
-  <h1>TODO EL KAOS.<br><em>BIEN PUESTO.</em></h1>
-  <p class="lead">
-    Pantalones de corte amplio, chinos y mezclilla. Menudeo y mayoreo
-    desde seis piezas.
-  </p>
-  <div class="links">
-    <a class="primary" href="https://kaos-pantalones.teccapitalweb.chatgpt.site">
-      Ver la tienda
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-           stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
-    </a>
+<section class="portada">
+  <div>
+    <p class="lugar">TEHUACÁN, PUEBLA</p>
+    <h1>TODO EL KAOS.<br><em>BIEN PUESTO.</em></h1>
   </div>
-</main>
+  <p>Pantalones de corte amplio, chinos y mezclilla. Menudeo y mayoreo desde seis piezas.</p>
+</section>
 
-<footer>KAOS · Pantalones de autor</footer>
+<div class="aviso">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+       stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.4 6.3H21l-5.3 3.9 2 6.3-5.7-4-5.7 4 2-6.3L3 9.3h6.6z"/></svg>
+  <span id="texto-aviso"></span>
+</div>
+
+<nav class="filtros" id="filtros"></nav>
+
+<main class="catalogo" id="catalogo"></main>
+
+<footer>
+  <b>KAOS · Pantalones de autor</b>
+  Tehuacán, Puebla · Menudeo y mayoreo<br>
+  Los pedidos se confirman por WhatsApp.
+</footer>
+
+<div class="fondo" id="fondo"></div>
+
+<aside class="carrito" id="carrito" aria-label="Carrito">
+  <div class="carrito-top">
+    <h2>TU PEDIDO</h2>
+    <button class="cerrar" id="cerrar-carrito" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="lineas" id="lineas"></div>
+  <div class="carrito-pie" id="pie"></div>
+</aside>
+
+<script src="./productos.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var pesos = new Intl.NumberFormat("es-MX", {
+    style: "currency", currency: "MXN", maximumFractionDigits: 0
+  });
+
+  var carrito = {};          // id -> cantidad
+  var filtro  = "Todo";
+
+  var elCatalogo = document.getElementById("catalogo");
+  var elFiltros  = document.getElementById("filtros");
+  var elLineas   = document.getElementById("lineas");
+  var elPie      = document.getElementById("pie");
+  var elCuenta   = document.getElementById("cuenta");
+  var elCarrito  = document.getElementById("carrito");
+  var elFondo    = document.getElementById("fondo");
+
+  var visibles = PRODUCTOS.filter(function (p) { return p.activo; });
+
+  document.getElementById("texto-aviso").textContent =
+    "Precio de mayoreo desde " + MIN_MAYOREO + " piezas — puedes combinar modelos";
+
+  /* ---------- Totales ---------- */
+  function piezas() {
+    var n = 0;
+    for (var id in carrito) n += carrito[id];
+    return n;
+  }
+  function esMayoreo() { return piezas() >= MIN_MAYOREO; }
+
+  function precioDe(p) { return esMayoreo() ? p.precioMayoreo : p.precio; }
+
+  function total() {
+    var suma = 0;
+    visibles.forEach(function (p) {
+      if (carrito[p.id]) suma += precioDe(p) * carrito[p.id];
+    });
+    return suma;
+  }
+  function totalMenudeo() {
+    var suma = 0;
+    visibles.forEach(function (p) {
+      if (carrito[p.id]) suma += p.precio * carrito[p.id];
+    });
+    return suma;
+  }
+
+  /* ---------- Catálogo ---------- */
+  function pintarFiltros() {
+    var cats = ["Todo"];
+    visibles.forEach(function (p) {
+      if (cats.indexOf(p.categoria) === -1) cats.push(p.categoria);
+    });
+    elFiltros.innerHTML = "";
+    cats.forEach(function (c) {
+      var b = document.createElement("button");
+      b.textContent = c;
+      b.setAttribute("aria-pressed", c === filtro ? "true" : "false");
+      b.addEventListener("click", function () { filtro = c; pintarFiltros(); pintarCatalogo(); });
+      elFiltros.appendChild(b);
+    });
+  }
+
+  function pintarCatalogo() {
+    var lista = filtro === "Todo"
+      ? visibles
+      : visibles.filter(function (p) { return p.categoria === filtro; });
+
+    elCatalogo.innerHTML = "";
+    lista.forEach(function (p) {
+      var art = document.createElement("article");
+      art.className = "tarjeta";
+
+      var enCarrito = carrito[p.id] || 0;
+
+      art.innerHTML =
+        '<figure>' +
+          '<img src="' + p.imagen + '" alt="' + p.nombre + '" loading="lazy">' +
+          '<span class="etiqueta-cat">' + p.categoria.toUpperCase() + '</span>' +
+        '</figure>' +
+        '<div class="cuerpo">' +
+          '<h3></h3>' +
+          '<p class="sub"></p>' +
+          '<p class="desc"></p>' +
+          '<div class="precios">' +
+            '<strong>' + pesos.format(p.precio) + '</strong>' +
+            '<span>mayoreo ' + pesos.format(p.precioMayoreo) + '</span>' +
+          '</div>' +
+          '<button class="agregar' + (enCarrito ? ' puesto' : '') + '">' +
+            (enCarrito ? 'En el pedido · ' + enCarrito : 'Agregar') +
+          '</button>' +
+        '</div>';
+
+      art.querySelector("h3").textContent = p.nombre;
+      art.querySelector(".sub").textContent = p.etiqueta;
+      art.querySelector(".desc").textContent = p.descripcion;
+      art.querySelector(".agregar").addEventListener("click", function () {
+        carrito[p.id] = (carrito[p.id] || 0) + 1;
+        refrescar();
+        abrir();
+      });
+
+      elCatalogo.appendChild(art);
+    });
+  }
+
+  /* ---------- Carrito ---------- */
+  function pintarCarrito() {
+    var ids = Object.keys(carrito);
+
+    if (!ids.length) {
+      elLineas.innerHTML =
+        '<div class="vacio">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/>' +
+          '</svg>' +
+          '<p>Tu pedido está vacío.</p>' +
+        '</div>';
+      elPie.innerHTML = '<a class="pedir" aria-disabled="true">Pedir por WhatsApp</a>';
+      return;
+    }
+
+    elLineas.innerHTML = "";
+    ids.forEach(function (id) {
+      var p = visibles.filter(function (x) { return x.id === id; })[0];
+      if (!p) return;
+
+      var fila = document.createElement("div");
+      fila.className = "linea";
+      fila.innerHTML =
+        '<img src="' + p.imagen + '" alt="">' +
+        '<div>' +
+          '<h4></h4>' +
+          '<small>' + pesos.format(precioDe(p)) + ' c/u</small>' +
+          '<div class="cantidad">' +
+            '<button class="menos" aria-label="Quitar una">−</button>' +
+            '<b>' + carrito[id] + '</b>' +
+            '<button class="mas" aria-label="Agregar una">+</button>' +
+          '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="monto">' + pesos.format(precioDe(p) * carrito[id]) + '</div>' +
+          '<button class="quitar">Quitar</button>' +
+        '</div>';
+
+      fila.querySelector("h4").textContent = p.nombre;
+      fila.querySelector(".mas").addEventListener("click", function () {
+        carrito[id]++; refrescar();
+      });
+      fila.querySelector(".menos").addEventListener("click", function () {
+        carrito[id]--; if (carrito[id] < 1) delete carrito[id]; refrescar();
+      });
+      fila.querySelector(".quitar").addEventListener("click", function () {
+        delete carrito[id]; refrescar();
+      });
+
+      elLineas.appendChild(fila);
+    });
+
+    /* --- Pie --- */
+    var n = piezas();
+    var html = '<div class="renglon"><span>' + n + (n === 1 ? ' pieza' : ' piezas') + '</span>' +
+               '<span>' + (esMayoreo() ? 'Precio de mayoreo' : 'Precio de menudeo') + '</span></div>';
+
+    if (esMayoreo()) {
+      var ahorro = totalMenudeo() - total();
+      if (ahorro > 0) {
+        html += '<div class="ahorro">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>' +
+          'Ahorras ' + pesos.format(ahorro) + ' con precio de mayoreo</div>';
+      }
+    } else {
+      var faltan = MIN_MAYOREO - n;
+      html += '<p class="falta">Agrega ' + faltan + (faltan === 1 ? ' pieza más' : ' piezas más') +
+              ' para precio de mayoreo. Puedes combinar modelos.</p>';
+    }
+
+    html += '<div class="renglon total"><span>Total</span><span>' + pesos.format(total()) + '</span></div>' +
+            '<a class="pedir" id="enviar" target="_blank" rel="noopener">' +
+              '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.7 15L2 22l5.2-1.3A10 10 0 1 0 12 2m0 2a8 8 0 1 1-4.1 14.9l-.4-.2-2.6.7.7-2.5-.3-.4A8 8 0 0 1 12 4m-3.4 4c-.2 0-.5 0-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.2.2 1.8 2.8 4.4 3.8 2.2.8 2.6.7 3.1.6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.2.1-1.3l-.6-.3-1.7-.8c-.2 0-.4-.1-.6.2l-.8 1c-.2.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4 0-.5.1-.7l.4-.5.3-.5v-.4l-.8-1.8c-.2-.4-.4-.4-.6-.4z"/></svg>' +
+              'Pedir por WhatsApp</a>';
+
+    elPie.innerHTML = html;
+    document.getElementById("enviar").href = enlaceWhatsApp();
+  }
+
+  /* ---------- Mensaje de WhatsApp ---------- */
+  function enlaceWhatsApp() {
+    var lineas = ["Hola, quiero hacer un pedido:", ""];
+
+    Object.keys(carrito).forEach(function (id) {
+      var p = visibles.filter(function (x) { return x.id === id; })[0];
+      if (!p) return;
+      lineas.push("• " + carrito[id] + " × " + p.nombre +
+                  " (" + p.etiqueta + ") — " + pesos.format(precioDe(p) * carrito[id]));
+    });
+
+    lineas.push("");
+    lineas.push("Total: " + pesos.format(total()) +
+                " (" + piezas() + " piezas, " +
+                (esMayoreo() ? "precio de mayoreo" : "precio de menudeo") + ")");
+
+    return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(lineas.join("\n"));
+  }
+
+  /* ---------- Abrir y cerrar ---------- */
+  function abrir()  { elCarrito.classList.add("abierto");    elFondo.classList.add("abierto"); }
+  function cerrar() { elCarrito.classList.remove("abierto"); elFondo.classList.remove("abierto"); }
+
+  document.getElementById("abrir-carrito").addEventListener("click", abrir);
+  document.getElementById("cerrar-carrito").addEventListener("click", cerrar);
+  elFondo.addEventListener("click", cerrar);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") cerrar(); });
+
+  function refrescar() {
+    elCuenta.textContent = piezas();
+    pintarCatalogo();
+    pintarCarrito();
+  }
+
+  pintarFiltros();
+  refrescar();
+})();
+</script>
 
 </body>
 </html>
